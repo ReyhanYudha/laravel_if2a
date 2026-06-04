@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Fakultas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use LDAP\Result;
 
 class FakultasController extends Controller
@@ -24,7 +25,7 @@ class FakultasController extends Controller
      */
     public function create()
     {
-        //
+        return view('fakultas.create');
     }
 
     /**
@@ -32,7 +33,19 @@ class FakultasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //dd($request);
+        //validasi input
+        $input = $request->validate([
+            'nama_fakultas' => 'required
+            unique:fakultas',
+            'singkatan' => 'required'
+        ]);
+
+        //simpan ke tabel fakultas
+        Fakultas::create($input);
+
+        //redirect ke route fakultas.index
+        return Redirect()->route('fakultas.index');
     }
 
     /**
@@ -46,9 +59,9 @@ class FakultasController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Fakultas $fakultas)
+    public function edit($fakultas)
     {
-        //
+        
     }
 
     /**
@@ -56,14 +69,14 @@ class FakultasController extends Controller
      */
     public function update(Request $request, Fakultas $fakultas)
     {
-        //
+        
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Fakultas $fakultas)
+    public function destroy($fakultas)
     {
-        //
+        
     }
 }
